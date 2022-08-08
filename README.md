@@ -1,0 +1,3 @@
+# SnejControl services
+
+server + client
