@@ -7,9 +7,9 @@ const routes = [
         component: () => import('../views/Home.vue'),
     },
     {
-        path: '/store',
-        meta: { title: 'store' },
-        component: () => import('../views/Store.vue'),
+        path: '/login',
+        meta: { title: 'Login' },
+        component: () => import('../views/Login.vue'),
     },
     {
         path: '/:catchAll(.*)*',

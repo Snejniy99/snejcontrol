@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar.vue";
   <section class="bg-gray">
       <Navbar />
     <main class="min-h-screen container mx-auto">
-      <div class="py-24">
+      <div class="py-16">
         <router-view />
       </div>
     </main>

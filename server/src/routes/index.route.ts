@@ -4,7 +4,7 @@ import { Routes } from '@interfaces/routes.interface';
 
 class IndexRoute implements Routes {
   public path = '/';
-  public router = Router();
+  public router: Router = Router();
   public indexController = new IndexController();
 
   constructor() {
