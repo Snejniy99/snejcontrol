@@ -23,13 +23,13 @@
     "paths": {
       "@/*": ["*"],
       "@config": ["config"],
-      "@controllers/*": ["controllers/*"],
-      "@dtos/*": ["dtos/*"],
-      "@exceptions/*": ["exceptions/*"],
-      "@interfaces/*": ["interfaces/*"],
-      "@middlewares/*": ["middlewares/*"],
+      "@controllers/*": ["app/controllers/*"],
+      "@dtos/*": ["app/dtos/*"],
+      "@exceptions/*": ["app/exceptions/*"],
+      "@interfaces/*": ["app/interfaces/*"],
+      "@middlewares/*": ["app/middlewares/*"],
       "@routes/*": ["routes/*"],
-      "@services/*": ["services/*"],
+      "@services/*": ["app/services/*"],
       "@utils/*": ["utils/*"]
     }
   },

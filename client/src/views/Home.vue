@@ -1,9 +1,16 @@
 <template>
   <section class="md:flex flex-col justify-center items-center">
-    <Items />
+    <span class="text-white">Welcome</span>
+
   </section>
 </template>
 
 <script setup lang="ts">
-import Items from "../components/Items.vue";
 </script>
+
+<style>
+.box{
+  width: 60px;
+  height: 60px;
+}
+</style>

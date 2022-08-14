@@ -14,10 +14,12 @@ class AuthService {
     if (isEmpty(userData)) throw new HttpException(400, 'userData is empty');
 
     const findUser: User = await this.users.findUnique({ where: { username: userData.username } });
-    if (findUser) throw new HttpException(409, `This username ${userData.username} already exists`);
+    if (findUser) throw new HttpException(409, `Username ${userData.username} already exists`);
+
+    if (userData.password !== userData.repassword) throw new HttpException(400, 'Passwords do not match');
 
     const hashedPassword = await hash(userData.password, 10);
-    const createUserData: Promise<User> = this.users.create({ data: { ...userData, password: hashedPassword } });
+    const createUserData: Promise<User> = this.users.create({ data: { username: userData.username, password: hashedPassword } });
 
     return createUserData;
   }
@@ -47,7 +49,8 @@ class AuthService {
   }
 
   public createToken(user: User): TokenData {
-    const dataStoredInToken: DataStoredInToken = { id: user.id };
+    const id: number = parseInt(user.id);
+    const dataStoredInToken: DataStoredInToken = { id: id };
     const secretKey: string = SECRET_KEY;
     const expiresIn: number = 60 * 60;
 
