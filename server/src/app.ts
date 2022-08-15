@@ -11,7 +11,6 @@ import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
-
 class App {
   public app: express.Application;
   public env: string;
@@ -43,7 +42,15 @@ class App {
 
   private initializeMiddlewares() {
     this.app.use(morgan(LOG_FORMAT, { stream }));
-    this.app.use(cors({ origin: ORIGIN, credentials: CREDENTIALS }));
+    console.log(ORIGIN);
+    this.app.use(
+      cors({
+        origin: ORIGIN,
+        credentials: CREDENTIALS,
+        optionsSuccessStatus: 200,
+      }),
+    );
+    // this.app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
     this.app.use(hpp());
     this.app.use(helmet());
     this.app.use(compression());
@@ -62,9 +69,9 @@ class App {
     const options = {
       swaggerDefinition: {
         info: {
-          title: 'REST API',
+          title: 'SnejControl API Docs',
           version: '1.0.0',
-          description: 'Example docs',
+          description: 'Documentation of SnejControl service',
         },
       },
       apis: ['swagger.yaml'],

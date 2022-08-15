@@ -52,7 +52,7 @@ class AuthService {
     const id: number = parseInt(user.id);
     const dataStoredInToken: DataStoredInToken = { id: id };
     const secretKey: string = SECRET_KEY;
-    const expiresIn: number = 60 * 60;
+    const expiresIn = '10h';
 
     return { expiresIn, token: sign(dataStoredInToken, secretKey, { expiresIn }) };
   }

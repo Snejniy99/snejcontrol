@@ -1,21 +1,30 @@
 <template>
 <section class="md:flex flex-col justify-center items-center">
-    <span class="text-white">Welcome</span>
+    <Card classes="md:w-96 flex flex-col items-center">
+      <div class="mb-5 text-xl">Login</div>
+      <Input placeholder="Username" classes="mb-2" v-model="userData.username"></Input>
+      <Input placeholder="Password" classes="mb-2" type="password" v-model="userData.password"></Input>
+      <Input placeholder="Re-enter the password" classes="mb-2" type="password" v-model="userData.repassword"></Input>
+      <Button @click="signup">Registration</Button>
+    </Card>
 
   </section>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { reactive } from 'vue';
 import { useAuth } from '../store/auth';
+import Input from '../components/form-controls/Input.vue'
+import Button from '../components/form-controls/Button.vue'
+import Card from '../components/Card.vue'
 
 const auth = useAuth()
-const userData = ref({
+const userData = reactive({
   username: '',
   password: '',
   repassword: ''
 })
 function signup () {
-
+  auth.signup(userData.username, userData.password, userData.repassword)
 }
 </script>

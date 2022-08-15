@@ -1,36 +1,30 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { useRouter } from 'vue-router'
-
+import router from '../router/route'
+import {useStorage} from '@vueuse/core'
 interface IUser {
-  username: string,
-  password: string,
+  username?: string,
+  password?: string,
 }
-
-export const useAuth = defineStore('counter', {
+export const useAuth = defineStore('auth', {
   state: () => {
     return {
-      user: undefined as undefined | IUser,
-      token: undefined as undefined | string,
+      user: useStorage('user', {username: undefined, password: undefined} as IUser),
+      loggined: useStorage('loggined', undefined as undefined | boolean)
     }
   },
-  getters: {
-    isLoggined: (state) => !!state.token
+  getters:{
+    isLoggined(state) {
+      return !!state.loggined
+    },
   },
   actions: {
-    isLoggined() {
-      return !!this.token
-    },
     async login(username: string, password: string) {
       try {
         const response = await axios.post('http://localhost:3000/login', { username, password })
         this.user = { username: response.data.data.username, password: response.data.data.password }
-        const cookieHeaders = response.headers['Set-Cookie'];
-        cookieHeaders.split('; ').forEach(e => {
-          if (e.includes('Authorization')) this.token = e.split('=')[1]
-        })
-        const router = useRouter()
-        router.push('/')
+        this.loggined = true
+        router.push({name: "home"})
       } catch (err) {
         console.error(err)
       }
@@ -39,19 +33,18 @@ export const useAuth = defineStore('counter', {
       try {
         const response = await axios.post('http://localhost:3000/signup', { username, password, repassword })
         console.log(response.data.message)
-        const router = useRouter()
-        router.push('/')
+        router.push({name: "login"})
       } catch (err) {
         console.error(err)
       }
     },
-    async logout() {
+    async logout(user: IUser) {
       try {
-        const response = await axios.post('http://localhost:3000/login', {})
-        this.user = undefined
-        this.token = undefined
-        const router = useRouter()
-        router.push('/')
+        const response = await axios.post('http://localhost:3000/logout', user)
+        this.user = {username: undefined, password: undefined}
+        this.loggined = false
+        
+        router.push({name: "home"})
       } catch (err) {
         console.error(err)
       }

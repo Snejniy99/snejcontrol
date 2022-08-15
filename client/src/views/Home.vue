@@ -9,8 +9,4 @@
 </script>
 
 <style>
-.box{
-  width: 60px;
-  height: 60px;
-}
 </style>
