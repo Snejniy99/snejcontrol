@@ -7,7 +7,6 @@ import { createPinia } from 'pinia'
 import router from './router/route'
 import { useBasic } from './store/basic'
 import axios from './includes/api-client'
-window.axios = axios
 createApp(App).use(router).use(createPinia()).use(VueAnimXyz).mount('#app')
 const basic = useBasic()
 router.beforeEach(async (to, from) => {
