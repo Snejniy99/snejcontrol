@@ -2,7 +2,7 @@
   <main class="w-full bg-slate-800 fixed md:px-12 z-50">
     <nav class="flex items-center justify-between p-4">
       <router-link
-        v-if="auth.isLoggined" 
+        v-if="basic.isLoggined" 
         to="/"
         class="inline-flex items-center justify-center px-4 py-3 text-white bg-light-gray rounded-lg"
       >
@@ -12,19 +12,19 @@
             xyz="fade up small"
             class="inline-block xyz-in"
           >
-            {{ auth.user?.username }}
+            {{ basic.user?.username }}
           </div>
         </code>
       </router-link>
       <div v-else></div>
-      <ul v-if="auth.isLoggined" class="flex items-center text-sm text-white font-medium">
+      <ul v-if="basic.isLoggined" class="flex items-center text-sm text-white font-medium">
         <li class="lg:block">
           <router-link class="px-3 py-2 rounded-lg cursor-pointer" to="/">
             Home
           </router-link>
         </li>
         <li class="lg:block">
-          <div class="px-3 py-2 rounded-lg cursor-pointer" @click="auth.logout(auth.user)">
+          <div class="px-3 py-2 rounded-lg cursor-pointer" @click="basic.logout(basic.user)">
             Logout
           </div>
         </li>
@@ -51,10 +51,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useAuth } from "../store/auth";
+import { useBasic } from "../store/basic";
 import { useStore } from "../store/store";
-const store = useStore();
-const auth = useAuth();
+const basic = useBasic();
 
 
 

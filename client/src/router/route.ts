@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useAuth } from '../store/auth'
+import { useBasic } from '../store/basic'
 const routes = [
     {
         path: '/',

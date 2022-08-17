@@ -11,24 +11,35 @@ import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
 import { Routes } from '@interfaces/routes.interface';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
+import { createServer, Server } from 'http';
+import { Server as IoServer, Socket } from 'socket.io';
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
+  public http: Server;
+  public io: IoServer;
 
   constructor(routes: Routes[]) {
     this.app = express();
     this.env = NODE_ENV || 'development';
     this.port = PORT || 3000;
+    this.http = createServer(this.app);
+    this.io = new IoServer(this.http, {
+      cors: {
+        origin: ORIGIN,
+      },
+    });
 
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
     this.initializeSwagger();
     this.initializeErrorHandling();
+    this.initializeSocket();
   }
 
   public listen() {
-    this.app.listen(this.port, () => {
+    this.http.listen(this.port, () => {
       logger.info(`=================================`);
       logger.info(`======= ENV: ${this.env} =======`);
       logger.info(`🚀 App listening on the port ${this.port}`);
@@ -38,6 +49,18 @@ class App {
 
   public getServer() {
     return this.app;
+  }
+
+  private initializeSocket() {
+    this.io.on('connection', (socket: Socket) => {
+      console.log('a user connected: User -', socket.handshake.auth.username, ', Id -', socket.handshake.auth.userUuid);
+      socket.on('disconnect', (reason: string) => {
+        console.log('a user disconnected. Reason: ' + reason);
+      });
+      socket.on('enter', userData => {
+        socket.broadcast.emit('test', userData);
+      });
+    });
   }
 
   private initializeMiddlewares() {

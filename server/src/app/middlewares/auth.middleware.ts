@@ -13,11 +13,10 @@ const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFun
       const secretKey: string = SECRET_KEY;
       const verificationResponse = (await verify(Authorization, secretKey)) as DataStoredInToken;
       const userId = verificationResponse.id;
-
+      const isExpaired = new Date().getTime() / 1000 < verificationResponse.exp;
       const users = new PrismaClient().user;
-      const findUser = await users.findUnique({ where: { id: userId.toString() } });
-
-      if (findUser) {
+      const findUser = await users.findUnique({ where: { id: userId } });
+      if (findUser && isExpaired) {
         req.user = findUser;
         next();
       } else {

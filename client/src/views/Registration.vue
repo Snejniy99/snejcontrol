@@ -13,18 +13,18 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-import { useAuth } from '../store/auth';
+import { useBasic } from '../store/basic';
 import Input from '../components/form-controls/Input.vue'
 import Button from '../components/form-controls/Button.vue'
 import Card from '../components/Card.vue'
 
-const auth = useAuth()
+const basic = useBasic()
 const userData = reactive({
   username: '',
   password: '',
   repassword: ''
 })
 function signup () {
-  auth.signup(userData.username, userData.password, userData.repassword)
+  basic.signup(userData.username, userData.password, userData.repassword)
 }
 </script>

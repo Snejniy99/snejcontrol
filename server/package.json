@@ -7,6 +7,7 @@
   "scripts": {
     "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
     "dev": "cross-env NODE_ENV=development nodemon",
+    "serve": "cross-env NODE_ENV=development ts-node --logError -r tsconfig-paths/register src/server.ts",
     "build": "swc src -d dist --source-maps --copy-files",
     "build:tsc": "tsc && tsc-alias",
     "test": "jest --forceExit --detectOpenHandles",
@@ -36,6 +37,7 @@
     "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
+    "socket.io": "^4.5.1",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.5.0",
     "uuid": "^8.3.2",

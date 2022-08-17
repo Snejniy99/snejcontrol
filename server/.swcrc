@@ -18,7 +18,7 @@
       "compress": false,
       "mangle": false
     },
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
       "@config": ["config"],
@@ -29,6 +29,7 @@
       "@middlewares/*": ["app/middlewares/*"],
       "@routes/*": ["routes/*"],
       "@services/*": ["app/services/*"],
+      "@sockets/*": ["app/sockets/*"],
       "@utils/*": ["utils/*"]
     }
   },

@@ -19,7 +19,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "importHelpers": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "paths": {
       "@/*": ["*"],
       "@config": ["config"],
@@ -30,9 +30,13 @@
       "@middlewares/*": ["app/middlewares/*"],
       "@routes/*": ["routes/*"],
       "@services/*": ["app/services/*"],
+      "@sockets/*": ["app/sockets/*"],
       "@utils/*": ["utils/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.json", ".env"],
-  "exclude": ["node_modules", "src/http", "src/logs", "src/tests"]
+  "exclude": ["node_modules", "src/http", "src/logs", "src/tests"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }
