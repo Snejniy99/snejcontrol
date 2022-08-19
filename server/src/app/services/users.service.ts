@@ -3,22 +3,22 @@ import { PrismaClient, User } from '@prisma/client';
 import { CreateUserDto } from '@dtos/users.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { isEmpty } from '@utils/util';
-
+import { IMappedUser } from '@/app/interfaces/user.interface';
 class UserService {
   public users = new PrismaClient().user;
 
-  public async findAllUser(): Promise<User[]> {
+  public async findAllUser(): Promise<IMappedUser[]> {
     const allUser: User[] = await this.users.findMany();
-    const mappedAllUser = allUser.map(e => ({id: e.id, username: e.username, userUuid: e.userUuid}))
+    const mappedAllUser = allUser.map(e => ({ id: e.id, username: e.username, userUuid: e.userUuid, online: e.online }));
     return mappedAllUser;
   }
 
-  public async findUserById(userId: number): Promise<User> {
+  public async findUserById(userId: number): Promise<IMappedUser> {
     if (isEmpty(userId)) throw new HttpException(400, 'UserId is empty');
 
     const findUser: User = await this.users.findUnique({ where: { id: userId } });
     if (!findUser) throw new HttpException(409, "User doesn't exist");
-    const mappedUser = {id: findUser.id, username: findUser.username, userUuid: findUser.userUuid}
+    const mappedUser = { id: findUser.id, username: findUser.username, userUuid: findUser.userUuid, online: findUser.online };
     return mappedUser;
   }
 

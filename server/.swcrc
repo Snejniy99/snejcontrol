@@ -29,7 +29,7 @@
       "@middlewares/*": ["app/middlewares/*"],
       "@routes/*": ["routes/*"],
       "@services/*": ["app/services/*"],
-      "@sockets/*": ["app/sockets/*"],
+      "@sockets/*": ["sockets/*"],
       "@utils/*": ["utils/*"]
     }
   },

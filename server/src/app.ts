@@ -13,12 +13,14 @@ import errorMiddleware from '@middlewares/error.middleware';
 import { logger, stream } from '@utils/logger';
 import { createServer, Server } from 'http';
 import { Server as IoServer, Socket } from 'socket.io';
+import ConnectionService from './sockets/services/connection.service';
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
   public http: Server;
   public io: IoServer;
+  public connectionService: ConnectionService = new ConnectionService();
 
   constructor(routes: Routes[]) {
     this.app = express();
@@ -52,10 +54,12 @@ class App {
   }
 
   private initializeSocket() {
-    this.io.on('connection', (socket: Socket) => {
-      console.log('a user connected: User -', socket.handshake.auth.username, ', Id -', socket.handshake.auth.userUuid);
-      socket.on('disconnect', (reason: string) => {
-        console.log('a user disconnected. Reason: ' + reason);
+    this.io.on('connection', async (socket: Socket) => {
+      await this.connectionService.setOnlineStatus(socket.handshake.auth.id, true);
+      console.log('Connected: User -', socket.handshake.auth.username, ', Id -', socket.handshake.auth.userUuid);
+      socket.on('disconnect', async (reason: string) => {
+        await this.connectionService.setOnlineStatus(socket.handshake.auth.userUuid, false);
+        console.log('Disconnected: User -', socket.handshake.auth.username, ', Id -', socket.handshake.auth.userUuid, '. Reason: ' + reason);
       });
       socket.on('enter', userData => {
         socket.broadcast.emit('test', userData);

@@ -3,7 +3,7 @@ import { User } from '@prisma/client';
 
 export interface DataStoredInToken {
   id: number;
-  exp: number;
+  exp?: number;
 }
 
 export interface TokenData {

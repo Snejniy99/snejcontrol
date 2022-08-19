@@ -49,7 +49,7 @@ class AuthService {
   }
 
   public createToken(user: User): TokenData {
-    const id: number = parseInt(user.id);
+    const id: number = user.id;
     const dataStoredInToken: DataStoredInToken = { id: id };
     const secretKey: string = SECRET_KEY;
     const expiresIn = '10h';
