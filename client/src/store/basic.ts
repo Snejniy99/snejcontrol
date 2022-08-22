@@ -7,12 +7,15 @@ interface IUser {
   username?: string,
   password?: string,
   userUuid?: string,
+  id?: number
 }
 
 const isAnauthorized = (storage: any, error: any) => {
   if(error?.response?.status && error?.response?.statusText === "Unauthorized") {
     storage.user.username = undefined
     storage.user.password = undefined
+    storage.user.userUuid = undefined
+    storage.user.id = undefined
     storage.loggined = false
     storage.socket?.disconnect()
   }
@@ -24,7 +27,8 @@ export const useBasic = defineStore('basic', {
       user: useStorage('user', {
         username: undefined,
         password: undefined,
-        userUuid: undefined
+        userUuid: undefined,
+        id: undefined
       } as IUser),
       loggined: useStorage('loggined', undefined as undefined | boolean | string),
       socket: io(`http://${location.hostname}:3000`, {autoConnect: false}) as Socket
@@ -42,8 +46,10 @@ export const useBasic = defineStore('basic', {
         this.user.password = response.data.data.password
         this.user.username = response.data.data.username
         this.user.userUuid = response.data.data.userUuid
+        this.user.id = response.data.data.id
+
         this.loggined = true
-        this.socket.auth = { username: this.user.username, userUuid: this.user.userUuid }
+        this.socket.auth = {id: this.user.id, username: this.user.username, userUuid: this.user.userUuid }
         this.socket?.connect()
         await this.socket.emit('enter', 'test')
         this.socket.on('test', msg=> {console.log(msg)})
@@ -67,6 +73,7 @@ export const useBasic = defineStore('basic', {
         this.user.username = undefined
         this.user.password = undefined
         this.user.userUuid = undefined
+        this.user.id = undefined
         this.loggined = false
         this.socket?.disconnect()
         router.push({name: "home"})

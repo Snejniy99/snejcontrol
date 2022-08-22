@@ -58,7 +58,7 @@ class App {
       await this.connectionService.setOnlineStatus(socket.handshake.auth.id, true);
       console.log('Connected: User -', socket.handshake.auth.username, ', Id -', socket.handshake.auth.userUuid);
       socket.on('disconnect', async (reason: string) => {
-        await this.connectionService.setOnlineStatus(socket.handshake.auth.userUuid, false);
+        await this.connectionService.setOnlineStatus(socket.handshake.auth.id, false);
         console.log('Disconnected: User -', socket.handshake.auth.username, ', Id -', socket.handshake.auth.userUuid, '. Reason: ' + reason);
       });
       socket.on('enter', userData => {

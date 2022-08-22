@@ -44,6 +44,7 @@ model PermissionInRole {
 model Room {
   id                      Int         @id @unique @default(autoincrement())
   name                    String
+  userUuid                String?      @unique @default(uuid())
   users                   User[]
   messages                Message[]
 }
