@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
 import Navbar from "./components/Navbar.vue";
+import { useBasic } from "./store/basic";
+const basic = useBasic()
+onMounted(()=>{
+  basic.afterUpdatePage()
+})
 </script>
 
 <template>

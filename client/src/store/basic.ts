@@ -58,6 +58,12 @@ export const useBasic = defineStore('basic', {
         console.error(err)
       }
     },
+    async afterUpdatePage () {
+      if (!this.socket.connected && this.isLoggined){
+        this.socket.auth = {id: this.user.id, username: this.user.username, userUuid: this.user.userUuid }
+        await this.socket?.connect()
+      }
+    },
     async signup(username: string, password: string, repassword: string) {
       try {
         const response = await axios.post(`http://${location.hostname}:3000/signup`, { username, password, repassword })
